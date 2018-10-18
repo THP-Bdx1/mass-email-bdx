@@ -18,8 +18,11 @@ class Follow
 
     obj.each do |l|
       if l["handle_twitter"] != nil
+        begin
         a=l["handle_twitter"]
         client.follow(a.to_s)
+      rescue
+      end
       end
     end
   end

@@ -36,7 +36,7 @@ class Index
     end
     if @mailing == true
       puts "Mailing"
-      Mailing.new.perform
+    Mailing.new.perform
     end
     Handle.new.perform if @handletwitter == true
     Follow.new.perform if @followtwitter == true
