@@ -7,4 +7,6 @@ gem 'twitter'
 gem 'nokogiri'
 gem 'json'
 gem 'gmail-api-ruby'
+=begin
+=end
 gem 'rmail'

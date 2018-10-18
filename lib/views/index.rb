@@ -1,4 +1,3 @@
-#require_relative '../app/townhalls_mailer.rb'
 require_relative '../app/townhalls_adder_to_db.rb'
 require_relative '../app/townhalls_follower.rb'
 require_relative '../app/townhalls_mailer.rb'
