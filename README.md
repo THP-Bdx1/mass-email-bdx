@@ -1,6 +1,6 @@
-THP – Envoi d’emails en masse
+# THP – Envoi d’emails en masse
 Ce README contient toutes les informations liées au projet « Envoi d’emails en masse » du jeudi 18 Octobre 2018 dans le cadre de la formation The Hacking Project.
-Introduction
+## Introduction
 Voici la liste des participants à la création du programme et les parties sur lesquelles ils ont participé :
 - Valérian Michelot ( index.rb, townhalls_mailer.rb, liaison des programmes )
 - Paul Guérin ( townhalls_scrapper.rb )
@@ -9,9 +9,11 @@ Voici la liste des participants à la création du programme et les parties sur 
 - David Rangeard ( townhalls_scrapper.rb, README.md et liaison des programmes )
 
 Pour faire fonctionner le programme, il vous suffit de vous placer dans /mass-email-bdx ( que vous aurez cloné ) et d’exécuter dans le terminal les commandes suivantes :
+```
 $ bundle install
 ruby app.rb
-Arborescence du dossier et utilité des programmes
+```
+## Arborescence du dossier et utilité des programmes
 Voici comment doit se constituer votre dossier /mass-email-bdx :
 /mass-emails-bdx
 	/db
@@ -41,14 +43,14 @@ Pour fonctionner, le programme nécessitera un Dotenv placé dans la source, con
 Utilisation du programme & gems utilisées
 Une fois le programme app.ruby lancé, le programme va vous poser une série de questions vous demandant à chaque fois si vous souhaitez ou non exécuter une action particulière, puis il exécutera les actions demandées.
 Afin de faire fonctionner ce programme, les gems suivantes ont été utilisées :
-- google-api-client ( accéder aux applications de google via API )
-- gmail ( sert à utiliser gmail )
-- dotenv ( stocker à part des données sensibles )
-- twitter ( sert à utiliser twitter )
-- nokogiri ( nécessaire pour le scrapping )
-- json ( écrire des fichiers au format json )
-- gmail-api-ruby ( permet au programme d’accéder à gmail via API )
-Que s’est-il passé ?
+- **google-api-client** ( accéder aux applications de google via API )
+- **gmail** ( sert à utiliser gmail )
+- **dotenv** ( stocker à part des données sensibles )
+- **twitter** ( sert à utiliser twitter )
+- **nokogiri** ( nécessaire pour le scrapping )
+- **json** ( écrire des fichiers au format json )
+- **gmail-api-ruby** ( permet au programme d’accéder à gmail via API )
+## Que s’est-il passé ?
 Si vous avez répondu « oui » à toutes les actions, le programme a effectué les actions suivantes :
 - Envoyé l’email avec le contenu indiqué en bas de page à 1113 mairies de France dans les départements de la Gironde, des Pyrénées-atlantiques et de la Réunion.
 Dans notre cas, l’essai a été fait avec le compte gmail suivant :
