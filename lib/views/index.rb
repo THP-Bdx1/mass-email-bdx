@@ -30,11 +30,12 @@ class Index
       puts " * Voulez-vous afficher toutes les données ? [Y/N]"
       @showdoc = checkifyes
     end
-    puts "Scrap.new" if @scrap == true
+    #Scrapper.new if @scrap == true
     Mailing.new.perform if @mailing == true
     puts "Handle.new" if @handletwitter == true
     puts "Follow.new" if @followtwitter == true
-    #puts File.read('db/townhalls.json') if @showdoc == true
+    puts File.read('db/townhalls.json') if @showdoc == true
+    puts
     puts "Merci d'avoir utilisé notre programme !"
   end
 
