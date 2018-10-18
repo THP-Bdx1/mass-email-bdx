@@ -46,17 +46,19 @@ class Mailing
     json=File.read("db/townhalls.json")
     obj=JSON.parse(json)
     obj.each do |k|
-      gmail.deliver do
-        to "#{k["mail"]}"
-        subject "Apprendre à coder, une nouvelle pédagogie"
-        text_part do
-          body "Bonjour,
+      if k["mail"] !=
+        gmail.deliver do
+          to "#{k["mail"]}"
+          subject "Apprendre à coder, une nouvelle pédagogie"
+          text_part do
+            body "Bonjour,
   Je m'appelle William, je suis élève à The Hacking Project, une formation au code gratuite, sans locaux, sans sélection, sans restriction géographique. La pédagogie de notre école est celle du peer-learning, où nous travaillons par petits groupes sur des projets concrets qui font apprendre le code. Le projet du jour est d'envoyer (avec du codage) des emails aux mairies pour qu'ils nous aident à faire de The Hacking Project un nouveau format d'éducation pour tous.
 
   Déjà 500 personnes sont passées par The Hacking Project. Est-ce que la mairie de #{k["ville"]} veut changer le monde avec nous ?
 
 
   Charles, co-fondateur de The Hacking Project pourra répondre à toutes vos questions : 06.95.46.60.80"
+          end
         end
       end
     end

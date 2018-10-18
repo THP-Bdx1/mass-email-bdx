@@ -5,5 +5,4 @@ require 'index.rb'
 Dotenv.load
 
 
-#Mailing.new.perform
 Index.new.perform
