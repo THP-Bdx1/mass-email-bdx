@@ -7,56 +7,62 @@ require 'gmail'
 require 'dotenv'
 Dotenv.load
 
-OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
-APPLICATION_NAME = 'Gmail API Ruby Quickstart'.freeze
-CREDENTIALS_PATH = 'credentials.json'.freeze
-TOKEN_PATH = 'token.yaml'.freeze
-SCOPE = Google::Apis::GmailV1::AUTH_GMAIL_READONLY
+class Mailing
 
-def authorize
-  client_id = Google::Auth::ClientId.from_file(CREDENTIALS_PATH)
-  token_store = Google::Auth::Stores::FileTokenStore.new(file: TOKEN_PATH)
-  authorizer = Google::Auth::UserAuthorizer.new(client_id, SCOPE, token_store)
-  user_id = 'default'
-  credentials = authorizer.get_credentials(user_id)
-  if credentials.nil?
+  OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
+  APPLICATION_NAME = 'Gmail API Ruby Quickstart'.freeze
+  CREDENTIALS_PATH = './lib/app/credentials.json'.freeze
+  TOKEN_PATH = 'token.yaml'.freeze
+  SCOPE = Google::Apis::GmailV1::AUTH_GMAIL_READONLY
+
+  def authorize
+    client_id = Google::Auth::ClientId.from_file(CREDENTIALS_PATH)
+    token_store = Google::Auth::Stores::FileTokenStore.new(file: TOKEN_PATH)
+    authorizer = Google::Auth::UserAuthorizer.new(client_id, SCOPE, token_store)
+    user_id = 'default'
+    credentials = authorizer.get_credentials(user_id)
+    if credentials.nil?
     url = authorizer.get_authorization_url(base_url: OOB_URI)
     puts 'Open the following URL in the browser and enter the ' \
          "resulting code after authorization:\n" + url
     code = gets
     credentials = authorizer.get_and_store_credentials_from_code(
       user_id: user_id, code: code, base_url: OOB_URI
-    )
+      )
+    end
+    credentials
   end
-  credentials
-end
 
+  def perform
 # Initialize the API
-service = Google::Apis::GmailV1::GmailService.new
-service.client_options.application_name = APPLICATION_NAME
-service.authorization = authorize
+  service = Google::Apis::GmailV1::GmailService.new
+  service.client_options.application_name = APPLICATION_NAME
+  service.authorization = authorize
 
 # Show the user's labels
-user_id = 'me'
-result = service.list_user_labels(user_id)
-gmail = Gmail.connect!(ENV["account"],ENV["password"])
+  user_id = 'me'
+  result = service.list_user_labels(user_id)
 
-json=File.read("../../db/townhalls.JSON")
-obj=JSON.parse(json)
-i=0
-obj.length.times do
-  gmail.deliver do
-    to "#{obj[i]["email"]}"
-    subject "Apprendre à coder, une nouvelle pédagogie"
-    text_part do
-      body "Bonjour,
-Je m'appelle William, je suis élève à The Hacking Project, une formation au code gratuite, sans locaux, sans sélection, sans restriction géographique. La pédagogie de notre école est celle du peer-learning, où nous travaillons par petits groupes sur des projets concrets qui font apprendre le code. Le projet du jour est d'envoyer (avec du codage) des emails aux mairies pour qu'ils nous aident à faire de The Hacking Project un nouveau format d'éducation pour tous.
+    gmail = Gmail.connect!(ENV["account"],ENV["password"])
 
-Déjà 500 personnes sont passées par The Hacking Project. Est-ce que la mairie de #{obj[i]["name"]} veut changer le monde avec nous ?
+    json=File.read("./db/townhalls.JSON")
+    obj=JSON.parse(json)
+    i=0
+    obj.length.times do
+      gmail.deliver do
+        to "#{obj[i]["email"]}"
+        subject "Apprendre à coder, une nouvelle pédagogie"
+        text_part do
+          body "Bonjour,
+  Je m'appelle William, je suis élève à The Hacking Project, une formation au code gratuite, sans locaux, sans sélection, sans restriction géographique. La pédagogie de notre école est celle du peer-learning, où nous travaillons par petits groupes sur des projets concrets qui font apprendre le code. Le projet du jour est d'envoyer (avec du codage) des emails aux mairies pour qu'ils nous aident à faire de The Hacking Project un nouveau format d'éducation pour tous.
+
+  Déjà 500 personnes sont passées par The Hacking Project. Est-ce que la mairie de #{obj[i]["name"]} veut changer le monde avec nous ?
 
 
-Charles, co-fondateur de The Hacking Project pourra répondre à toutes vos questions : 06.95.46.60.80"
+  Charles, co-fondateur de The Hacking Project pourra répondre à toutes vos questions : 06.95.46.60.80"
+      end
+      i+=1
     end
-    i+=1
   end
+end
 end

@@ -5,10 +5,10 @@ require 'townhalls_mailer.rb'
 require 'townhalls_scrapper.rb'
 
 class Index
-  attr_accessor :mail, :mailer, :handletwitter, :followtwitter, :showdoc
+  attr_accessor :mail, :mailing, :handletwitter, :followtwitter, :showdoc
   def perform
     @scrap = false
-    @mailer = false
+    @mailing = false
     @handletwitter = false
     @followtwitter = false
     @showdoc = false
@@ -20,7 +20,7 @@ class Index
     if checkifyes == true
       @scrap = true
       puts " * Voulez-vous envoyer un mail à chacune des mairies ? [Y/N]"
-      @mailer = checkifyes
+      @mailing = checkifyes
       puts " * Voulez-vous chercher leur handlebar twitter ? [Y/N]"
       if checkifyes == true
         @handletwitter = true
@@ -31,7 +31,7 @@ class Index
       @showdoc = checkifyes
     end
     puts "Scrap.new" if @scrap == true
-    puts "Mailer.new" if @mailer == true
+    Mailing.new.perform if @mailing == true
     puts "Handle.new" if @handletwitter == true
     puts "Follow.new" if @followtwitter == true
     puts File.read('db/townhalls.json') if @showdoc == true
