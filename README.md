@@ -66,6 +66,8 @@ Dans notre cas, l’essai a été fait avec le compte gmail suivant :
 
 codeurenherbe33@gmail.com
 
+Voici un screenshot de la boîte d'envoi de l'adresse mail : http://image.noelshack.com/fichiers/2018/42/4/1539897405-capture-d-ecran-de-2018-10-18-23-16-34.png
+
 - Cherché des handles Twitter affichés en tête de liste après une recherche « mairie + nom de la commune » et suivi les comptes correspondants si trouvés.
 
 Dans notre cas, l’essai a été fait avec le compte Twitter suivant :
