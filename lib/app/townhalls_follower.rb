@@ -1,7 +1,7 @@
 require 'twitter'
 require 'dotenv'
 require 'json'
-require '../db/townhalls.json'
+
 Dotenv.load
 
 
@@ -13,6 +13,12 @@ client = Twitter::REST::Client.new do |config|
 end
 
 
-def twitter_follow(ville) #methode pour follow les "@ville"
-client.follow(ville)
+json = File.read('../../db/townhalls.json')
+obj = JSON.parse(json)
+
+obj.each do |l|
+		if l["handle_twitter"] != nil
+a=l["handle_twitter"]
+client.follow(a.to_s) 
+end
 end
