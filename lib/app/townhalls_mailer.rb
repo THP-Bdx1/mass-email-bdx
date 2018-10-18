@@ -1,71 +1,62 @@
-
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
+require 'json'
 require 'google/apis/gmail_v1'
-require 'base_cli'
-require 'rmail'
+require 'googleauth'
+require 'googleauth/stores/file_token_store'
+require 'fileutils'
+require 'gmail'
+require 'dotenv'
+Dotenv.load
 
-module Samples
-  # Examples for the Gmail API
-  #
-  # Sample usage:
-  #
-  #     $ ./google-api-samples gmail send 'Hello there!' \
-  #       --to='recipient@example.com' --from='user@example.com' \
-  #       --subject='Hello'
-  #
-  class Gmail < BaseCli
-    Gmail = Google::Apis::GmailV1
+OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
+APPLICATION_NAME = 'Gmail API Ruby Quickstart'.freeze
+CREDENTIALS_PATH = 'credentials.json'.freeze
+TOKEN_PATH = 'token.yaml'.freeze
+SCOPE = Google::Apis::GmailV1::AUTH_GMAIL_READONLY
 
-    desc 'get ID', 'Get a message for an id with the gmail API'
-    def get(id)
-      gmail = Gmail::GmailService.new
-      gmail.authorization = user_credentials_for(Gmail::AUTH_SCOPE)
+def authorize
+  client_id = Google::Auth::ClientId.from_file(CREDENTIALS_PATH)
+  token_store = Google::Auth::Stores::FileTokenStore.new(file: TOKEN_PATH)
+  authorizer = Google::Auth::UserAuthorizer.new(client_id, SCOPE, token_store)
+  user_id = 'default'
+  credentials = authorizer.get_credentials(user_id)
+  if credentials.nil?
+    url = authorizer.get_authorization_url(base_url: OOB_URI)
+    puts 'Open the following URL in the browser and enter the ' \
+         "resulting code after authorization:\n" + url
+    code = gets
+    credentials = authorizer.get_and_store_credentials_from_code(
+      user_id: user_id, code: code, base_url: OOB_URI
+    )
+  end
+  credentials
+end
 
-      result = gmail.get_user_message('me', id)
-      payload = result.payload
-      headers = payload.headers
+# Initialize the API
+service = Google::Apis::GmailV1::GmailService.new
+service.client_options.application_name = APPLICATION_NAME
+service.authorization = authorize
 
-      date = headers.any? { |h| h.name == 'Date' } ? headers.find { |h| h.name == 'Date' }.value : ''
-      from = headers.any? { |h| h.name == 'From' } ? headers.find { |h| h.name == 'From' }.value : ''
-      to = headers.any? { |h| h.name == 'To' } ? headers.find { |h| h.name == 'To' }.value : ''
-      subject = headers.any? { |h| h.name == 'Subject' } ? headers.find { |h| h.name == 'Subject' }.value : ''
+# Show the user's labels
+user_id = 'me'
+result = service.list_user_labels(user_id)
+gmail = Gmail.connect!(ENV["account"],ENV["password"])
 
-      body = payload.body.data
-      if body.nil? && payload.parts.any?
-        body = payload.parts.map { |part| part.body.data }.join
-      end
+json=File.read("../../db/townhalls.JSON")
+obj=JSON.parse(json)
+i=0
+obj.length.times do
+  gmail.deliver do
+    to "#{obj[i]["email"]}"
+    subject "Apprendre à coder, une nouvelle pédagogie"
+    text_part do
+      body "Bonjour,
+Je m'appelle William, je suis élève à The Hacking Project, une formation au code gratuite, sans locaux, sans sélection, sans restriction géographique. La pédagogie de ntore école est celle du peer-learning, où nous travaillons par petits groupes sur des projets concrets qui font apprendre le code. Le projet du jour est d'envoyer (avec du codage) des emails aux mairies pour qu'ils nous aident à faire de The Hacking Project un nouveau format d'éducation pour tous.
 
-      puts "id: #{result.id}"
-      puts "date: #{date}"
-      puts "from: #{from}"
-      puts "to: #{to}"
-      puts "subject: #{subject}"
-      puts "body: #{body}"
+Déjà 500 personnes sont passées par The Hacking Project. Est-ce que la mairie de #{obj[i]["name"]} veut changer le monde avec nous ?
+
+
+Charles, co-fondateur de The Hacking Project pourra répondre à toutes vos questions : 06.95.46.60.80"
     end
-
-    desc 'send TEXT', 'Send a message with the gmail API'
-    method_option :to, type: :string, required: true
-    method_option :from, type: :string, required: true
-    method_option :subject, type: :string, required: true
-    def send(body)
-      gmail = Gmail::GmailService.new
-      gmail.authorization = user_credentials_for(Gmail::AUTH_SCOPE)
-
-      message = RMail::Message.new
-      message.header['To'] = options[:to]
-      message.header['From'] = options[:from]
-      message.header['Subject'] = options[:subject]
-      message.body = body
-
-      gmail.send_user_message('me',
-                              upload_source: StringIO.new(message.to_s),
-                              content_type: 'message/rfc822')
-    end
+    i+=1
+  end
 end
