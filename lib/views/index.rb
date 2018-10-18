@@ -12,22 +12,22 @@ class Index
     @handletwitter = false
     @followtwitter = false
     @showdoc = false
-    puts "Bienvenue dans ce programme d'envoi automatique de mails envers differentes mairies."
+    puts "Bienvenue dans ce programme d'envoi automatique de mails envers différentes mairies."
     puts
-    puts "Veuillez choisir les fonctions a utiliser"
+    puts "Veuillez choisir les fonctions à utiliser :"
     puts
-    puts " * Voulez vous recuperer les adresse mail des maire de la Gironde [33], les Pyrénées-atlantiques [64], et les Landes [40]. [Y/N]"
+    puts " * Voulez-vous récupérer les adresses mail des mairies de la Gironde [33], des Pyrénées-atlantiques [64], et des Landes [40] ? [Y/N]"
     if checkifyes == true
       @scrap = true
-      puts " * Voulez vous envoyer un mail un chacune des mairies ? [Y/N]"
+      puts " * Voulez-vous envoyer un mail à chacune des mairies ? [Y/N]"
       @mailer = checkifyes
-      puts " * Voulez vous chercher leur handlebar twitter ? [Y/N]"
+      puts " * Voulez-vous chercher leur handlebar twitter ? [Y/N]"
       if checkifyes == true
         @handletwitter = true
-        puts " * Voulez vous follow chaque mairie ? [Y/N]"
+        puts " * Voulez-vous follow chaque mairie ? [Y/N]"
         @followtwitter = checkifyes
       end
-      puts " * Voulez vous afficher toute les données ? [Y/N]"
+      puts " * Voulez-vous afficher toutes les données ? [Y/N]"
       @showdoc = checkifyes
     end
     puts "Scrap.new" if @scrap == true

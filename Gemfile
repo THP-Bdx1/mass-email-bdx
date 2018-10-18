@@ -1,0 +1,9 @@
+source "https://rubygems.org"
+ruby '2.5.1'
+gem 'dotenv'
+gem 'twitter'
+gem 'google-api-client'
+gem 'rubygems'
+gem 'nokogiri'
+gem 'open-uri'
+gem 'json'
