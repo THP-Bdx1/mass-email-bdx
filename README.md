@@ -74,6 +74,10 @@ Dans notre cas, l’essai a été fait avec le compte Twitter suivant :
 
 codeur_en_herbe_33 ( @Codeur3 )
 
+Voici un screenshot des personnes suivies par le compte Twitter : http://image.noelshack.com/fichiers/2018/42/4/1539897674-capture-d-ecran-de-2018-10-18-23-20-31.png
+
+A noter qu'au moment du screenshot, le programme avait été temporairement bloqué par Twitter pour éviter le spamming.
+
 Contenu de l’email :
 ```
 « Apprendre à coder, une nouvelle pédagogie »
