@@ -5,14 +5,13 @@ require 'googleauth/stores/file_token_store'
 require 'fileutils'
 require 'gmail'
 require 'dotenv'
-Dotenv.load
 
 class Mailing
 
   OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
   APPLICATION_NAME = 'Gmail API Ruby Quickstart'.freeze
-  CREDENTIALS_PATH = 'lib/app/credentials.json'.freeze
-  TOKEN_PATH = 'lib/app/token.yaml'.freeze
+  CREDENTIALS_PATH = 'db/credentials.json'.freeze
+  TOKEN_PATH = 'db/token.yaml'.freeze
   SCOPE = Google::Apis::GmailV1::AUTH_GMAIL_READONLY
 
   def authorize
@@ -45,7 +44,7 @@ class Mailing
 
     gmail = Gmail.connect!(ENV["account"],ENV["password"])
 
-    json=File.read("lib/app/townhalls.json")
+    json=File.read("db/townhalls.json")
     obj=JSON.parse(json)
     i=0
     obj.length.times do

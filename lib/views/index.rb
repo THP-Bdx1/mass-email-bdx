@@ -52,5 +52,3 @@ class Index
     end
   end
 end
-
-Index.new.perform
