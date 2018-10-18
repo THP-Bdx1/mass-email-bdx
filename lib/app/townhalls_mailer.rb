@@ -46,7 +46,7 @@ class Mailing
     json=File.read("db/townhalls.json")
     obj=JSON.parse(json)
     obj.each do |k|
-      if k["mail"] !=
+      if k["mail"] != "Pas de mail ='("
         gmail.deliver do
           to "#{k["mail"]}"
           subject "Apprendre à coder, une nouvelle pédagogie"

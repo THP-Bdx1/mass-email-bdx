@@ -15,7 +15,7 @@ class Index
     puts
     puts "Veuillez choisir les fonctions à utiliser :"
     puts
-    puts " * Voulez-vous récupérer les adresses mail des mairies de la Gironde [33], des Pyrénées-atlantiques [64], et des Landes [40] ? [Y/N]"
+    puts " * Voulez-vous récupérer les adresses mail des mairies de la Gironde [33], des Pyrénées-atlantiques [64], et de la Réunion [974] ? [Y/N]"
     if checkifyes == true
       @scrap = true
       puts " * Voulez-vous envoyer un mail à chacune des mairies ? [Y/N]"
