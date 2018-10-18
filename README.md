@@ -36,12 +36,12 @@ Voici comment doit se constituer votre dossier /mass-email-bdx :
 
 Voici, de plus, une liste des programmes et leur utilité :
 
-- /lib/app/townhalls_adder_to_db.rb : génère une liste de handles Twitter basés sur une recherche de nom de la commune et ajoute au Json la liste des handles trouvés à la mairie correspondante
-- /lib/app/townhalls_follower.rb : fait en sorte que le compte Twitter suive tous les comptes correspondants supposément aux mairies des communes trouvées
-- /lib/app/townhalls_mailer.rb : envoie un email à chacune des adresses mail des mairies des communes trouvées
-- /lib/app/townhalls_scrapper.rb : récupère la liste des mairies des 3 départements de la Gironde, des Pyrénées-atlantiques et de la Réunion et les range dans un fichier Json.
-- /lib/views/index.rb : interface utilisateur du terminal qui pose une série de questions afin de savoir quels programmes doivent être exécutés, puis les exécute
-- /app.rb : permet de lancer le programme index.rb, et de fait toute l’exécution du projet
+- **/lib/app/townhalls_adder_to_db.rb** : génère une liste de handles Twitter basés sur une recherche de nom de la commune et ajoute au Json la liste des handles trouvés à la mairie correspondante
+- **/lib/app/townhalls_follower.rb** : fait en sorte que le compte Twitter suive tous les comptes correspondants supposément aux mairies des communes trouvées
+- **/lib/app/townhalls_mailer.rb** : envoie un email à chacune des adresses mail des mairies des communes trouvées
+- **/lib/app/townhalls_scrapper.rb** : récupère la liste des mairies des 3 départements de la Gironde, des Pyrénées-atlantiques et de la Réunion et les range dans un fichier Json.
+- **/lib/views/index.rb** : interface utilisateur du terminal qui pose une série de questions afin de savoir quels programmes doivent être exécutés, puis les exécute
+- **/app.rb** : permet de lancer le programme index.rb, et de fait toute l’exécution du projet
 
 Pour fonctionner, le programme nécessitera un Dotenv placé dans la source, contenant les identifiants gmail, les identifiants Twitter et les clefs API.
 
