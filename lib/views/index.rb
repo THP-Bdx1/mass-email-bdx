@@ -1,8 +1,8 @@
-$:.unshift File.expand_path("../../app", __FILE__)
-require 'townhalls_adder_to_db.rb'
-require 'townhalls_follower.rb'
-require 'townhalls_mailer.rb'
-require 'townhalls_scrapper.rb'
+#require_relative '../app/townhalls_mailer.rb'
+require_relative '../app/townhalls_adder_to_db.rb'
+require_relative '../app/townhalls_follower.rb'
+require_relative '../app/townhalls_mailer.rb'
+require_relative '../app/townhalls_scrapper.rb'
 
 class Index
   attr_accessor :mail, :mailing, :handletwitter, :followtwitter, :showdoc
@@ -34,7 +34,7 @@ class Index
     Mailing.new.perform if @mailing == true
     puts "Handle.new" if @handletwitter == true
     puts "Follow.new" if @followtwitter == true
-    puts File.read('db/townhalls.json') if @showdoc == true
+    #puts File.read('db/townhalls.json') if @showdoc == true
     puts "Merci d'avoir utilisé notre programme !"
   end
 
@@ -53,4 +53,4 @@ class Index
   end
 end
 
-Index.new
+Index.new.perform
